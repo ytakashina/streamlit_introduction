@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 from pulp import LpProblem, LpMaximize, LpVariable, lpSum
 
-TITLE = "データ分析アプリのラピッドプロトタイピングパッケージ「Streamlit」"
+TITLE = "データ分析アプリのラピッドプロトタイピングツール「Streamlit」"
 BODY = """
 by [ytakashina](https://github.com/ytakashina) for DSN アドベントカレンダー 2020 day 3.
 
