@@ -4,7 +4,7 @@ from pulp import LpProblem, LpMaximize, LpVariable, lpSum
 
 TITLE = "データ分析アプリのラピッドプロトタイピングパッケージ「Streamlit」"
 BODY = """
-by [ytakashina](http://twitter.com/takashinayuya) for DSN アドベントカレンダー day 3
+by ytakashina
 
 # はじめに
 機械学習や数理最適化といった、データ分析に関係する仕事をする際、
@@ -29,16 +29,19 @@ Jupyter でデータの加工や可視化を行っている方は多いと思い
 「バージョンアップのたびに最新版をダウンロードしてもらう」手間が発生します。更新に手間がかかると、それだけ改善スピードも落ちます。
 
 UI を作成するもう 1 つの手段として、**Django 等を利用してスクラッチで Web アプリを作る**、というものがあります。
-Web アプリとして作ってしまえば、データの前後処理や数値計算といった処理も、Web アプリの機能として自然に盛り込むことができます。
+Web アプリとして作ってしまえば、データの前後処理や数値計算といった処理も自然に盛り込むことができます。
 また、自由度が極めて高く、望んだ機能が大抵は実現できるでしょう（コストを度外視すれば）。
 ユーザーから見ても、いつも同じページにアクセスすれば済むため、更新時のダウンロード・インストールの手間が省けます。
 
 しかし、**スクラッチで Web アプリを作成するということは、開発に手間がかかる**ということでもあります。
 それだけの手間と時間をかけてでも開発したいプロダクトであれば、スクラッチ開発もありかもしれません。
-しかし、社内向けでユーザーも数人程度の場合は、もっと短期間に手軽に作りたいことが多いです。
+しかし、**社内向けでユーザーも数人程度の場合は、もっと短期間に手軽に作りたい**ことが多いです。
 
 
-# そんなあなたの願いを叶えるのが、Streamlit です。
+# そんなあなたにぴったりなのが、Streamlit です。
+
+<img width="100%" src="https://raw.githubusercontent.com/ytakashina/streamlit_introduction/master/img/logo_streamlit.png">
+
 Streamlit は、BI ツールのような使いやすい UI と、スクラッチ Web アプリに近い柔軟性を、
 Jupyter のような手軽さで実現できる Python パッケージです。
 百聞は一見に如かず。ここからは、実際に Streamlit を使ってみます。
@@ -91,7 +94,8 @@ Web アプリ開発の経験がなくとも、普段から Jupyter を使って�
 このような見栄えの良いダッシュボードを気軽に作成できる、というのは非常に魅力的ではないでしょうか。
 
 Streamlit に興味を持った方は、まずはお試しで Jupyter 代わりに使ってみてください！
-良い年末を！
+
+良いお年を！
 """
 
 demand = pd.DataFrame({
@@ -120,7 +124,7 @@ def main():
     st.set_page_config(page_title=TITLE)
     st.title(TITLE)
 
-    st.markdown(BODY)
+    st.markdown(BODY, unsafe_allow_html=True)
     st.markdown("Streamlit では、これを `st.table(demand)` で表形式で表示したり、 ")
     st.table(demand)
     st.markdown("`st.bar_chart(demand)` で棒グラフで表示したり、")
@@ -141,18 +145,19 @@ def main():
     st.markdown("前節では、Streamlit のごく一部の機能を紹介しました。"
                 "しかし、ダッシュボード機能だけなら、BI ツールで十分であり、Streamlit の良さが伝わらないかと思います。"
                 "そこで、以降では、上記の機能を利用して、簡単な生産計画ツールを作ってみたいと思います。")
+    st.markdown("> ※機械学習じゃないのかよ、と思われる方もいるかもですが、近頃は"
+                "[機械学習による予測結果をアクションにつなげる](https://blog.brainpad.co.jp/entry/2020/11/06/000005)"
+                "技術として、広い意味でデータ分析の一環として取り組まれることもあります。")
     st.markdown("今回は[こちらの Qiita の記事](https://qiita.com/ytakashina/items/0d2a01c66230e0dc6fe9)"
                 "に掲載されている問題設定をそのまま使用します。食品の生産計画を扱ったものなのですが、"
                 "簡単にまとめると「原料をなるべく安く買って、加工して販売する」という問題です（詳細が気になる方は元記事へどうぞ！）。")
-    st.markdown("1 月から 6 月にかけて 5 つの原料が購入でき、原料の単価は以下のように与えられています。")
+    st.markdown("1 月から 6 月にかけて 5 つの原料が購入でき、各月の原料の単価は以下のように与えられています。")
     st.table(BUY_UC.T)
-    st.markdown("この単価を元に、一定の制約の下で利益を最大化するように最適化を行います。"
+    st.markdown("この単価をはじめとする前提データを元に、一定の制約の下で利益を最大化するように生産計画を立案します。"
                 "販売単価は、元記事では 150 で固定されていますが、今回は以下のスライダーで指定できるようにします。")
     sell_uc = st.slider("販売単価", min_value=0, max_value=300, value=150)
     st.markdown("販売単価を変化させながら、**以下のボタンで最適化を走らせる**と、"
-                "「販売単価が安すぎると生産を行わない」というような結果が出てきます。"
-                "このように、**ダッシュボード上で前提データを変化させながら、"
-                "同じ画面で結果を確認できる**のが便利なところです。")
+                "設定した販売単価によって、異なる最適化結果が出てきます。")
 
     if st.button("最適化実行"):
         objective_value, buy_value, use_value, produce_value, closing_stock_value = run_optimization(sell_uc=sell_uc)
@@ -163,6 +168,11 @@ def main():
         st.bar_chart(closing_stock_value)
         st.markdown("### 原料の購入量")
         st.bar_chart(buy_value)
+
+    st.markdown("このように、**ダッシュボード上で前提データを変化させながら、同じ画面で計算結果を確認**するツールを、"
+                "**非常に短いコードで実現**できるのが、Streamlit の便利なところです。"
+                "今回は、生産計画ということでテーブルデータを扱いましたが、"
+                "Jupyter と同じように、画像や音声、テキストといったデータを扱うことも可能です。")
 
     st.markdown(BOTTOM)
 
