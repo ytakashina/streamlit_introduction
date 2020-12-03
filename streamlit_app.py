@@ -4,7 +4,7 @@ from pulp import LpProblem, LpMaximize, LpVariable, lpSum
 
 TITLE = "データ分析アプリのラピッドプロトタイピングパッケージ「Streamlit」"
 BODY = """
-by ytakashina for DSN アドベントカレンダー 2020 day 3
+by [ytakashina](https://github.com/ytakashina) for DSN アドベントカレンダー 2020 day 3
 
 # はじめに
 機械学習や数理最適化といった、データ分析に関係する仕事をする際、
