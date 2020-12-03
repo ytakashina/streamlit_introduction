@@ -4,7 +4,7 @@ from pulp import LpProblem, LpMaximize, LpVariable, lpSum
 
 TITLE = "データ分析アプリのラピッドプロトタイピングパッケージ「Streamlit」"
 BODY = """
-by ytakashina for DSN アドベントカレンダー day 3
+by [ytakashina](http://twitter.com/takashinayuya) for DSN アドベントカレンダー day 3
 
 # はじめに
 機械学習や数理最適化といった、データ分析に関係する仕事をする際、
@@ -84,11 +84,14 @@ AWS Cognito 等と組み合わせることである程度解決可能だとは�
 こちらは、作成は Streamlit より複雑で面倒ですが、レイアウトのカスタマイズ性が高く、本格的な製品の開発向きだと思います。
 
 # 終わりに
+というわけで、Streamlit のごり押し紹介記事でした。
+
 お気づきかと思いますが、この記事は Streamlit を使って作成しています。
 Web アプリ開発の経験がなくとも、普段から Jupyter を使っている人であれば、
 このような見栄えの良いダッシュボードを気軽に作成できる、というのは非常に魅力的ではないでしょうか。
 
 Streamlit に興味を持った方は、まずはお試しで Jupyter 代わりに使ってみてください！
+良い年末を！
 """
 
 demand = pd.DataFrame({
